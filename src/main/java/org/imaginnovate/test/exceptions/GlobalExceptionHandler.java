@@ -44,6 +44,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return buildErrorResponse(empNotFoundException, HttpStatus.NOT_FOUND, request);
     }
 
+    @ExceptionHandler(DuplicateEmployeeIdException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Object> handleDuplicateEmployeeIdException(DuplicateEmployeeIdException duplicateEmployeeIdException, WebRequest request) {
+        log.error("Failed to find the requested element", duplicateEmployeeIdException);
+        return buildErrorResponse(duplicateEmployeeIdException, HttpStatus.NOT_FOUND, request);
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<Object> handleAllUncaughtException(Exception exception, WebRequest request) {

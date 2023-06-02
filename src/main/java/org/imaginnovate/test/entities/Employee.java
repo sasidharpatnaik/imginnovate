@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -36,11 +37,13 @@ public class Employee {
     @Column(length = 30, nullable = false, unique = true)
     private String email;
 
+    @NotNull(message = "Date of Joining is mandatory")
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date doj;
 
+    @NotNull(message = "Salary not null")
     @Column(nullable = false)
-    private double salary;
+    private Double salary;
 }

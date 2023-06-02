@@ -3,6 +3,7 @@ package org.imaginnovate.test.services;
 import lombok.extern.slf4j.Slf4j;
 import org.imaginnovate.test.common.I18Constants;
 import org.imaginnovate.test.entities.Employee;
+import org.imaginnovate.test.exceptions.DuplicateEmployeeIdException;
 import org.imaginnovate.test.exceptions.EmployeeNotFoundException;
 import org.imaginnovate.test.model.EmployeeModel;
 import org.imaginnovate.test.repos.EmployeeRepository;
@@ -29,6 +30,10 @@ public class EmployeeService {
     }
 
     public Employee createEmplyoee(Employee employee) {
+        employeeRepository.findByEmployeeId(employee.getEmployeeId())
+                .ifPresent(emp -> {
+                    throw new DuplicateEmployeeIdException(getLocalMessage(I18Constants.DUPLICATE_EMPLOYEE_ID.getKey(),String.valueOf(employee.getEmployeeId())));
+                });
         return employeeRepository.save(employee);
     }
 
